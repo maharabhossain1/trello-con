@@ -1,7 +1,6 @@
 "use client";
 
 import { getMe, getOrganization } from "@/api/apiService";
-import Test from "@/components/test";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -21,10 +20,5 @@ export default function Home() {
     fetchData();
   }, []);
 
-  return (
-    <main>
-      {data}
-      <Test />
-    </main>
-  );
+  return <main>{data}</main>;
 }
