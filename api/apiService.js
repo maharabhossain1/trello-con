@@ -27,3 +27,12 @@ export const getMe = (apiKey, apiToken) =>
 
 export const getBoards = (id, apiKey, apiToken) =>
   api.get(`/organizations/${id}/boards?key=${apiKey}&token=${apiToken}`);
+
+export const getBoardDetails = (id, apiKey, apiToken) =>
+  api.get(`boards/${id}?key=${apiKey}&token=${apiToken}`);
+
+export const updateBoardDetails = (id, apiKey, apiToken, data) =>
+  api.put(`boards/${id}?key=${apiKey}&token=${apiToken}`, data);
+
+export const deleteBoardDetails = (id, apiKey, apiToken) =>
+  api.delete(`boards/${id}?key=${apiKey}&token=${apiToken}`);

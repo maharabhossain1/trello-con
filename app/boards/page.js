@@ -1,6 +1,7 @@
 "use client";
 
 import { getBoards } from "@/api/apiService";
+import Boards from "@/components/Boards";
 import useUtility from "@/hooks/useUtilityContext";
 import React, { useEffect, useState } from "react";
 
@@ -21,8 +22,16 @@ const AllBoardsPage = () => {
     if ((organizationId, apiKey, apiToken)) getData();
   }, [organizationId, apiKey, apiToken]);
 
-  console.log("boards", boards);
-  return <div>AllBoardPage</div>;
+  return (
+    <div className="p-4">
+      AllBoardPage
+      <div className="w-2/5">
+        {boards.map((board) => {
+          return <Boards name={board.name} key={board.id} />;
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default AllBoardsPage;
