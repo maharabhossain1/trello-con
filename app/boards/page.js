@@ -1,14 +1,18 @@
 "use client";
 
-import { deleteBoard, getBoards } from "@/api/apiService";
+import { deleteBoard, getBoards, updateBoard } from "@/api/apiService";
+import BoardForm from "@/components/BoardForm";
 import Boards from "@/components/Boards";
+import Modal from "@/components/Modal";
 import useUtility from "@/hooks/useUtilityContext";
 import React, { useEffect, useState } from "react";
 
 const AllBoardsPage = () => {
   const { apiKey, apiToken, organizationId } = useUtility();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const [reload, setReload] = useState(false);
+  const [updatedBoard, setUpdatedBoard] = useState({});
 
   const getData = async () => {
     try {
@@ -18,6 +22,9 @@ const AllBoardsPage = () => {
       console.log("error", e);
     }
   };
+  useEffect(() => {
+    if ((organizationId, apiKey, apiToken)) getData();
+  }, [organizationId, apiKey, apiToken, reload]);
 
   const handleDelete = async (id) => {
     try {
@@ -28,9 +35,32 @@ const AllBoardsPage = () => {
     }
   };
 
-  useEffect(() => {
-    if ((organizationId, apiKey, apiToken)) getData();
-  }, [organizationId, apiKey, apiToken, reload]);
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+  const handleUpdate = (data) => {
+    setUpdatedBoard(data);
+    setModalIsOpen(true);
+  };
+
+  const confirmUpdate = async (id) => {
+    try {
+      const res = await updateBoard(
+        updatedBoard.id,
+        apiKey,
+        apiToken,
+        updatedBoard
+      );
+      if (res.status === 200) {
+        setReload(!reload);
+        closeModal();
+      }
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
+
+  console.log(boards);
 
   return (
     <div className="p-4">
@@ -39,13 +69,23 @@ const AllBoardsPage = () => {
         {boards.map((board) => {
           return (
             <Boards
-              name={board.name}
-              id={board.id}
+              board={board}
               handleDelete={handleDelete}
+              handleUpdate={handleUpdate}
               key={board.id}
             />
           );
         })}
+
+        {modalIsOpen && (
+          <Modal isOpen={modalIsOpen} onClose={closeModal}>
+            <BoardForm
+              data={updatedBoard}
+              setData={setUpdatedBoard}
+              handleSubmit={confirmUpdate}
+            />
+          </Modal>
+        )}
       </div>
     </div>
   );
