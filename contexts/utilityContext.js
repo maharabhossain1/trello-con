@@ -14,9 +14,9 @@ export const UtilityProvider = ({ children }) => {
     const getApiToken = sessionStorage.getItem("apiToken");
     const getOrganizationId = sessionStorage.getItem("organizationId");
 
-    setApiKey(getApiKey);
-    setToken(getApiToken);
-    setOrganizationId(getOrganizationId);
+    setApiKey(getApiKey ?? "");
+    setToken(getApiToken ?? "");
+    setOrganizationId(getOrganizationId ?? "");
   }, []);
 
   const contextValue = useMemo(() => {

@@ -31,8 +31,8 @@ export const getBoards = (id, apiKey, apiToken) =>
 export const getBoardDetails = (id, apiKey, apiToken) =>
   api.get(`boards/${id}?key=${apiKey}&token=${apiToken}`);
 
-export const updateBoardDetails = (id, apiKey, apiToken, data) =>
+export const updateBoard = (id, apiKey, apiToken, data) =>
   api.put(`boards/${id}?key=${apiKey}&token=${apiToken}`, data);
 
-export const deleteBoardDetails = (id, apiKey, apiToken) =>
+export const deleteBoard = (id, apiKey, apiToken) =>
   api.delete(`boards/${id}?key=${apiKey}&token=${apiToken}`);
