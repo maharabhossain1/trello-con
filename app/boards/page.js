@@ -5,9 +5,11 @@ import BoardForm from "@/components/BoardForm";
 import Boards from "@/components/Boards";
 import Modal from "@/components/Modal";
 import useUtility from "@/hooks/useUtilityContext";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const AllBoardsPage = () => {
+  const router = useRouter();
   const { apiKey, apiToken, organizationId } = useUtility();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [boards, setBoards] = useState([]);
@@ -61,7 +63,9 @@ const AllBoardsPage = () => {
   };
 
   console.log(boards);
-
+  const handleDetails = (id) => {
+    router.push(`/boards/${id}`);
+  };
   return (
     <div className="p-4">
       AllBoardPage
@@ -72,6 +76,7 @@ const AllBoardsPage = () => {
               board={board}
               handleDelete={handleDelete}
               handleUpdate={handleUpdate}
+              handleDetails={handleDetails}
               key={board.id}
             />
           );

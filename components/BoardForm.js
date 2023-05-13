@@ -34,7 +34,7 @@ const BoardForm = ({ title, handleSubmit, data, setData }) => {
           <input
             type="text"
             name="desc"
-            value={data?.decs}
+            value={data?.desc}
             onChange={handleOnChange}
             className="w-full px-4 py-2 mb-4 text-black border rounded-md"
             placeholder="Board Description"
