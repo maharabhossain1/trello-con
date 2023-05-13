@@ -1,9 +1,11 @@
 "use client";
 
 import { getMe } from "@/api/apiService";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Page = () => {
+  const router = useRouter();
   const [credentials, setCredentials] = useState({
     apiKey: "",
     apiToken: "",
@@ -22,16 +24,14 @@ const Page = () => {
     const { apiKey, apiToken } = credentials;
 
     try {
-      if ((apiKey && apiToken) !== "") {
-        const response = await getMe(apiKey, apiToken);
-        console.log("Organization created:", response.data);
-      }
-
-      // Handle success or perform any further actions
+      const response = await getMe(apiKey, apiToken);
+      const organizationId = response.data.idOrganizations[0];
+      sessionStorage.setItem("organizationId", organizationId);
+      sessionStorage.setItem("apiKey", apiKey);
+      sessionStorage.setItem("apiToken", apiToken);
+      router.push("/");
     } catch (error) {
       console.error("Error creating organization:", error.message);
-
-      // Handle error or display error message
     }
   };
 

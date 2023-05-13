@@ -12,6 +12,8 @@ export default function Home() {
         const response = await getMe();
         const organizationId = response.data.idOrganizations[0];
         sessionStorage.setItem("organizationId", organizationId);
+        sessionStorage.setItem("apiKey", organizationId);
+        sessionStorage.setItem("apiToken", organizationId);
         setData(organizationId);
       } catch (e) {
         console.log(`${e.message}`);
