@@ -29,3 +29,6 @@ export const getOrganization = () =>
 
 export const getMe = () =>
   api.get(`/members/me?key=${apiKey}&token=${apiToken}`);
+
+export const getBoards = () =>
+  api.get(`/organizations/{id}/boards?key=${apiKey}&token=${apiToken}`);
