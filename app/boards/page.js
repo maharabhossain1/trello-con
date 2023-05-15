@@ -1,6 +1,11 @@
 "use client";
 
-import { deleteBoard, getBoards, updateBoard } from "@/api/apiService";
+import {
+  createBoard,
+  deleteBoard,
+  getBoards,
+  updateBoard,
+} from "@/api/apiService";
 import BoardForm from "@/components/BoardForm";
 import Boards from "@/components/Boards";
 import Modal from "@/components/Modal";
@@ -14,80 +19,123 @@ const AllBoardsPage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [boards, setBoards] = useState([]);
   const [reload, setReload] = useState(false);
-  const [updatedBoard, setUpdatedBoard] = useState({});
+  const [newData, setNewData] = useState({});
+  const [isCreating, setIsCreating] = useState(false);
 
-  const getData = async () => {
-    try {
-      const res = await getBoards(organizationId, apiKey, apiToken);
-      setBoards(res.data);
-    } catch (e) {
-      console.log("error", e);
-    }
-  };
   useEffect(() => {
-    if ((organizationId, apiKey, apiToken)) getData();
+    const getData = async () => {
+      try {
+        const res = await getBoards(organizationId, apiKey, apiToken);
+        setBoards(res.data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    if (organizationId && apiKey && apiToken) {
+      getData();
+    }
   }, [organizationId, apiKey, apiToken, reload]);
 
   const handleDelete = async (id) => {
     try {
       const res = await deleteBoard(id, apiKey, apiToken);
-      if (res.status === 200) setReload(!reload);
-    } catch (e) {
-      console.log("error", e);
+      if (res.status === 200) {
+        setReload(!reload);
+      }
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
   const handleUpdate = (data) => {
-    setUpdatedBoard(data);
+    setNewData(data ?? {});
     setModalIsOpen(true);
   };
 
   const confirmUpdate = async (id) => {
     try {
-      const res = await updateBoard(
-        updatedBoard.id,
-        apiKey,
-        apiToken,
-        updatedBoard
-      );
+      const res = await updateBoard(id, apiKey, apiToken, updatedBoard);
+      if (res.status === 200) {
+        setReload(!reload);
+        closeModal();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const handleDetails = (id) => {
+    router.push(`/boards/${id}`);
+  };
+
+  const handleCreateBoard = async () => {
+    try {
+      const res = await createBoard(newData.name, apiKey, apiToken);
       if (res.status === 200) {
         setReload(!reload);
         closeModal();
       }
     } catch (e) {
-      console.log("error", e);
+      console.log("error", error);
     }
-  };
-
-  console.log(boards);
-  const handleDetails = (id) => {
-    router.push(`/boards/${id}`);
   };
   return (
     <div className="p-4">
-      AllBoardPage
-      <div className="w-2/5">
-        {boards.map((board) => {
-          return (
-            <Boards
-              board={board}
-              handleDelete={handleDelete}
-              handleUpdate={handleUpdate}
-              handleDetails={handleDetails}
-              key={board.id}
-            />
-          );
-        })}
+      <h1 className="text-3xl font-bold text-gray-700 ">All Boards </h1>
+      <div className="flex items-center justify-between">
+        <div>
+          <p>This page serves as a centralized hub for managing your boards.</p>
+        </div>
+        <div>
+          <button
+            onClick={() => {
+              setModalIsOpen(true);
+              setIsCreating(true);
+            }}
+            className="flex px-3 py-2 bg-purple-100 border border-purple-200 rounded-lg hover:bg-purple-200"
+          >
+            <div className="w-6 ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-plus-circle"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="16" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+              </svg>
+            </div>
+            <p className="mx-2">Create</p>
+          </button>
+        </div>
+      </div>
+      <div className="p-6 my-6 bg-white border border-gray-200 shadow-lg rounded-3xl">
+        {boards.map((board) => (
+          <Boards
+            board={board}
+            handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
+            handleDetails={handleDetails}
+            key={board.id}
+          />
+        ))}
 
         {modalIsOpen && (
           <Modal isOpen={modalIsOpen} onClose={closeModal}>
             <BoardForm
-              data={updatedBoard}
-              setData={setUpdatedBoard}
-              handleSubmit={confirmUpdate}
+              data={newData}
+              setData={setNewData}
+              handleSubmit={isCreating ? handleCreateBoard : confirmUpdate}
             />
           </Modal>
         )}
