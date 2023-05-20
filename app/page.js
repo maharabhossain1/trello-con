@@ -54,7 +54,7 @@ const AllBoardsPage = () => {
 
   const confirmUpdate = async (id) => {
     try {
-      const res = await updateBoard(id, apiKey, apiToken, updatedBoard);
+      const res = await updateBoard(id, apiKey, apiToken, newData);
       if (res.status === 200) {
         setReload(!reload);
         closeModal();
@@ -70,6 +70,7 @@ const AllBoardsPage = () => {
       if (res.status === 200) {
         setReload(!reload);
         closeModal();
+        setIsCreating(false);
       }
     } catch (e) {
       console.log("error", error);

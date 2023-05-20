@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
-const BoardForm = ({ title, handleSubmit, data, setData }) => {
+const BoardForm = (props) => {
+  const { title, handleSubmit, data, setData } = props;
   const handleOnChange = (e) => {
     const { value, name } = e.target;
     setData((prevData) => ({
@@ -13,7 +14,7 @@ const BoardForm = ({ title, handleSubmit, data, setData }) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit();
+          handleSubmit(data.id);
         }}
         className="w-full p-6"
       >
