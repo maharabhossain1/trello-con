@@ -1,7 +1,6 @@
 "use client";
 import { getBoardDetails } from "@/api/apiService";
 import useUtility from "@/hooks/useUtilityContext";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const BoardDetails = ({ params }) => {
@@ -19,7 +18,6 @@ const BoardDetails = ({ params }) => {
     if ((apiKey, apiToken)) fetchData();
   }, [params.boardId, apiKey, apiToken]);
 
-  console.log(details);
   return (
     <div>
       BoardDetails
