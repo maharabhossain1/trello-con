@@ -39,3 +39,6 @@ export const deleteBoard = (id, apiKey, apiToken) =>
 
 export const createBoard = (name, apiKey, apiToken) =>
   api.post(`/boards/?name=${name}&key=${apiKey}&token=${apiToken}`);
+
+export const getBoardLists = (id, apiKey, apiToken) =>
+  api.get(`/boards/${id}/lists?key=${apiKey}&token=${apiToken}`);

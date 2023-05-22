@@ -1,10 +1,12 @@
 "use client";
 
 import { getMe } from "@/api/apiService";
+import useUtility from "@/hooks/useUtilityContext";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const LoginPage = () => {
+  const { setApiKey, setToken, setOrganizationId } = useUtility();
   const router = useRouter();
   const [formValues, setFormValues] = useState({
     apiKey: "",
@@ -27,9 +29,13 @@ const LoginPage = () => {
       const response = await getMe(apiKey, apiToken);
       const organizationId = response?.data?.idOrganizations?.[0];
       if (organizationId) {
+        setApiKey(apiKey);
+        setToken(apiToken);
+        setOrganizationId(organizationId);
         sessionStorage.setItem("organizationId", organizationId);
         sessionStorage.setItem("apiKey", apiKey);
         sessionStorage.setItem("apiToken", apiToken);
+
         router.push("/");
       } else {
         console.error("Error creating organization: No organization ID found.");

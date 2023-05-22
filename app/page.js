@@ -9,6 +9,7 @@ import {
 import BoardForm from "@/components/BoardForm";
 import Boards from "@/components/Boards";
 import Modal from "@/components/Modal";
+import PrivateRoute from "@/components/PrivateRoute";
 import useUtility from "@/hooks/useUtilityContext";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -144,4 +145,4 @@ const AllBoardsPage = () => {
   );
 };
 
-export default AllBoardsPage;
+export default PrivateRoute(AllBoardsPage);

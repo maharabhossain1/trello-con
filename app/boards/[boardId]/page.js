@@ -1,5 +1,6 @@
 "use client";
-import { getBoardDetails } from "@/api/apiService";
+import { getBoardDetails, getBoardLists } from "@/api/apiService";
+import ListCard from "@/components/ListCard";
 import useUtility from "@/hooks/useUtilityContext";
 import React, { useEffect, useState } from "react";
 
@@ -10,19 +11,19 @@ const BoardDetails = ({ params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getBoardDetails(params.boardId, apiKey, apiToken);
+        const res = await getBoardLists(params.boardId, apiKey, apiToken);
         setDetails(res.data);
       } catch (e) {}
     };
 
     if ((apiKey, apiToken)) fetchData();
   }, [params.boardId, apiKey, apiToken]);
-
+  console.log("details", details);
   return (
     <div>
       BoardDetails
       <div>
-        <p>{details.name}</p>
+        <ListCard />
       </div>
     </div>
   );
