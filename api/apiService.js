@@ -25,6 +25,7 @@ export const getOrganization = (id, apiKey, apiToken) =>
 export const getMe = (apiKey, apiToken) =>
   api.get(`/members/me?key=${apiKey}&token=${apiToken}`);
 
+// Boards API
 export const getBoards = (id, apiKey, apiToken) =>
   api.get(`/organizations/${id}/boards?key=${apiKey}&token=${apiToken}`);
 
@@ -40,6 +41,7 @@ export const deleteBoard = (id, apiKey, apiToken) =>
 export const createBoard = (name, apiKey, apiToken) =>
   api.post(`/boards/?name=${name}&key=${apiKey}&token=${apiToken}`);
 
+// List API
 export const getBoardLists = (id, apiKey, apiToken) =>
   api.get(`/boards/${id}/lists?key=${apiKey}&token=${apiToken}`);
 
@@ -50,3 +52,12 @@ export const createList = (name, boardId, apiKey, apiToken) =>
 
 export const getBoardListDetails = (id, apiKey, apiToken) =>
   api.get(`/lists/${id}?key=${apiKey}&token=${apiToken}`);
+
+// Cards API
+export const getCards = (id, apiKey, apiToken) =>
+  api.get(`/lists/${id}/cards?key=${apiKey}&token=${apiToken}`);
+
+export const createCard = (name, listId, apiKey, apiToken) =>
+  api.post(
+    `cards?name=${name}&idList=${listId}&key=${apiKey}&token=${apiToken}`
+  );
