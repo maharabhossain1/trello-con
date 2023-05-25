@@ -63,3 +63,6 @@ export const createCard = (name, listId, apiKey, apiToken) =>
   api.post(
     `cards?name=${name}&idList=${listId}&key=${apiKey}&token=${apiToken}`
   );
+
+export const getCardDetails = (id, apiKey, apiToken) =>
+  api.get(`/cards/${id}?key=${apiKey}&token=${apiToken}`);
