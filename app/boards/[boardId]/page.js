@@ -1,51 +1,15 @@
 "use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+
 import { createList, getBoardLists } from "@/api/apiService";
+
+import Button from "@/components/Button";
+import Form from "@/components/Form";
 import ListCard from "@/components/ListCard";
 import Modal from "@/components/Modal";
 import useUtility from "@/hooks/useUtilityContext";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-
-const ListForm = ({ data, setData, handleSubmit }) => {
-  const handleOnChange = (e) => {
-    const { value, name } = e.target;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-      className="w-full p-6"
-    >
-      <div className="mb-6">
-        <p>Create New List </p>
-      </div>
-      <div>
-        <input
-          type="text"
-          name="name"
-          value={data?.name ? data.name : ""}
-          onChange={handleOnChange}
-          className="w-full px-4 py-2 mb-4 text-black border rounded-md"
-          placeholder="Board Name"
-        />
-      </div>
-      <div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 text-white bg-blue-500 rounded-md"
-        >
-          Confirm
-        </button>
-      </div>
-    </form>
-  );
-};
 
 const BoardDetails = ({ params }) => {
   const { apiKey, apiToken } = useUtility();
@@ -69,6 +33,7 @@ const BoardDetails = ({ params }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+    setNewListData({});
   };
 
   const handleSubmit = async () => {
@@ -81,6 +46,7 @@ const BoardDetails = ({ params }) => {
       );
       if (res.status === 200) {
         setReload(!reload);
+        setNewListData({});
         closeModal();
       }
     } catch (error) {
@@ -103,31 +69,12 @@ const BoardDetails = ({ params }) => {
           );
         })}
         <div className="col-span-1">
-          <button
-            onClick={() => setModalIsOpen(true)}
-            className="flex items-center w-full p-6 bg-gray-200 border border-gray-200 shadow-lg rounded-3xl hover:shadow-xl"
-          >
-            <div className="w-8 mr-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-            </div>
-            <p>Create List</p>
-          </button>
+          <Button onClick={setModalIsOpen}> Create List</Button>
         </div>
       </div>
       {modalIsOpen && (
         <Modal isOpen={modalIsOpen} onClose={closeModal}>
-          <ListForm
+          <Form
             data={newListData}
             setData={setNewListData}
             handleSubmit={handleSubmit}

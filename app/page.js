@@ -6,13 +6,13 @@ import {
   getBoards,
   updateBoard,
 } from "@/api/apiService";
-import BoardForm from "@/components/BoardForm";
 import Boards from "@/components/Boards";
 import Modal from "@/components/Modal";
 import PrivateRoute from "@/components/PrivateRoute";
 import useUtility from "@/hooks/useUtilityContext";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Form from "@/components/Form";
 
 const AllBoardsPage = () => {
   const router = useRouter();
@@ -67,7 +67,12 @@ const AllBoardsPage = () => {
 
   const handleCreateBoard = async () => {
     try {
-      const res = await createBoard(newData.name, apiKey, apiToken);
+      const res = await createBoard(
+        newData.name,
+        newData.desc,
+        apiKey,
+        apiToken
+      );
       if (res.status === 200) {
         setReload(!reload);
         closeModal();
@@ -83,6 +88,7 @@ const AllBoardsPage = () => {
   };
   const closeModal = () => {
     setModalIsOpen(false);
+    setNewData({});
   };
 
   return (
@@ -133,7 +139,7 @@ const AllBoardsPage = () => {
 
         {modalIsOpen && (
           <Modal isOpen={modalIsOpen} onClose={closeModal}>
-            <BoardForm
+            <Form
               data={newData}
               setData={setNewData}
               handleSubmit={isCreating ? handleCreateBoard : confirmUpdate}

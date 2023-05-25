@@ -1,6 +1,6 @@
 import React from "react";
 
-const BoardForm = (props) => {
+const Form = (props) => {
   const { title, handleSubmit, data, setData } = props;
   const handleOnChange = (e) => {
     const { value, name } = e.target;
@@ -28,7 +28,7 @@ const BoardForm = (props) => {
             value={data?.name ? data.name : ""}
             onChange={handleOnChange}
             className="w-full px-4 py-2 mb-4 text-black border rounded-md"
-            placeholder="Board Name"
+            placeholder="Name"
           />
         </div>
         <div>
@@ -38,7 +38,7 @@ const BoardForm = (props) => {
             value={data?.desc ? data.desc : ""}
             onChange={handleOnChange}
             className="w-full px-4 py-2 mb-4 text-black border rounded-md"
-            placeholder="Board Description"
+            placeholder="Description"
           />
         </div>
         <div>
@@ -54,4 +54,4 @@ const BoardForm = (props) => {
   );
 };
 
-export default BoardForm;
+export default Form;
