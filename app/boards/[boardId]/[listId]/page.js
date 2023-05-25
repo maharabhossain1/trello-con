@@ -9,6 +9,7 @@ import Form from "@/components/Form";
 import ListCard from "@/components/ListCard";
 import Modal from "@/components/Modal";
 import useUtility from "@/hooks/useUtilityContext";
+import PrivateRoute from "@/components/PrivateRoute";
 
 const SingleList = ({ params }) => {
   const { apiKey, apiToken } = useUtility();
@@ -37,6 +38,7 @@ const SingleList = ({ params }) => {
     try {
       const res = await createCard(
         newCardData.name,
+        newCardData.desc,
         params.listId,
         apiKey,
         apiToken
@@ -50,10 +52,10 @@ const SingleList = ({ params }) => {
     }
   };
   return (
-    <div>
-      SingleList
+    <div className="my-6">
+      <h1 className="text-3xl font-bold text-gray-700 ">All Cards</h1>
       <div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-4 my-6">
           {allCards.map((card) => {
             return (
               <Link
@@ -83,4 +85,4 @@ const SingleList = ({ params }) => {
   );
 };
 
-export default SingleList;
+export default PrivateRoute(SingleList);

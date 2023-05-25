@@ -1,6 +1,7 @@
 "use client";
 
 import { getCardDetails } from "@/api/apiService";
+import PrivateRoute from "@/components/PrivateRoute";
 import useUtility from "@/hooks/useUtilityContext";
 import React, { useEffect, useState } from "react";
 
@@ -19,8 +20,13 @@ const CardDetails = ({ params }) => {
     if ((apiKey, apiToken)) fetchData();
   }, [params.cardId, apiKey, apiToken]);
 
-  console.log("data", cardDetails);
-  return <div>CardDetails</div>;
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-gray-700 ">Card Details</h1>
+      <p>name :{cardDetails.name}</p>
+      <p>Description :{cardDetails.desc}</p>
+    </div>
+  );
 };
 
-export default CardDetails;
+export default PrivateRoute(CardDetails);

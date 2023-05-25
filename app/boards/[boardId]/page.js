@@ -10,6 +10,7 @@ import Form from "@/components/Form";
 import ListCard from "@/components/ListCard";
 import Modal from "@/components/Modal";
 import useUtility from "@/hooks/useUtilityContext";
+import PrivateRoute from "@/components/PrivateRoute";
 
 const BoardDetails = ({ params }) => {
   const { apiKey, apiToken } = useUtility();
@@ -54,9 +55,9 @@ const BoardDetails = ({ params }) => {
     }
   };
   return (
-    <div>
-      BoardDetails
-      <div className="grid grid-cols-4 gap-4">
+    <div className="my-6">
+      <h1 className="text-3xl font-bold text-gray-700 ">All Lists</h1>
+      <div className="grid grid-cols-4 gap-4 my-6">
         {allLists.map((list, index) => {
           return (
             <Link
@@ -85,4 +86,4 @@ const BoardDetails = ({ params }) => {
   );
 };
 
-export default BoardDetails;
+export default PrivateRoute(BoardDetails);
