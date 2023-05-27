@@ -31,7 +31,7 @@ const SingleList = ({ params }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-    setNewListData({});
+    setNewCardData({});
   };
 
   const handleSubmit = async () => {
